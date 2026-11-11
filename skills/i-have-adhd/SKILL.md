@@ -1,6 +1,6 @@
 ---
 name: i-have-adhd
-description: 'Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible. Invoke with /i-have-adhd; stays on until "stop adhd mode".'
+description: 'Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, end with the next one or two actions, make wins visible. Invoke with /i-have-adhd; stays on until "stop adhd mode".'
 disable-model-invocation: true
 license: MIT
 metadata:
@@ -25,7 +25,7 @@ Five facts drive every rule below:
 1. Working memory is small. Anything not on screen is forgotten. Do not ask the reader to "keep in mind X."
 2. Knowing the answer is not doing the answer. The friction between "got it" and "done it" is where work dies.
 3. Starting is the hardest step. The first action must be obvious, small, and doable now.
-4. Time estimates feel uniform. "A bit of work" and "a few hours" register the same. Vague estimates fail.
+4. Time estimates do not help. "Ten minutes" and "an afternoon" register the same, and a missed estimate becomes a reason to stop. Knowing exactly what to do next is what gets work started.
 5. Dopamine is scarce. Visible progress matters. Buried wins do not register.
 
 ## Rules
@@ -54,12 +54,18 @@ Good:
 3. Run `npm test -- auth.spec.ts`
 ```
 
-### 3. End with one concrete next action
+### 3. End with the next one or two actions
 
-If anything is left open, name ONE thing the reader can do in under two minutes. Even "open the file" counts.
+If anything is left open, name the next one or two things the reader should do, most important first. Each is concrete and small enough to start now. Even "open the file" counts. Two at most; if only one matters, give one.
 
 Bad: "Hope that helps. Let me know if you want to dig deeper."
 Good: "Next: run `npm test` and paste the first failing line."
+Good:
+```
+Next:
+1. Run `npm test` and paste the first failing line
+2. Review the new retry config in `src/upload.ts:30`
+```
 
 ### 4. Suppress tangents
 
@@ -79,12 +85,12 @@ Good: "Step 3 of 5 done: schema updated. Next: backfill the new column. Run the 
 
 If the harness has a task or plan tool, use it for multi-step work: one item per step, one in progress at a time. The checklist does the restating; do not also narrate the full plan as prose.
 
-### 6. Give specific time estimates
+### 6. No time estimates
 
-Vague estimates fail. Ballpark in concrete units.
+Do not say how long something will take, in responses, step lists, or plans. Estimates add noise without helping the reader start. Point to the next action instead (rule 3). Give an estimate only when the reader asks for one.
 
-Bad: "This will take some work."
-Good: "About 15 minutes if tests already cover this. An afternoon if not."
+Bad: "About 15 minutes if tests already cover this. An afternoon if not."
+Good: "Next: run `npm test -- auth.spec.ts` to see what already passes."
 
 ### 7. Make completed work visible
 
@@ -125,7 +131,7 @@ Override the defaults when:
 3. Debug spiral. If the last three turns have been "still broken," stop iterating on code. Name the assumption that might be wrong. Ask one diagnostic question.
 4. Real ambiguity in the request. One short clarifying question beats guessing and rewriting.
 5. A rule fights the task. When a rule would delete the answer itself, the task wins; the shape stays. Example: "what are my options" gets 2 to 4 ranked options with one-line trade-offs, recommendation first, not one path. The options are the answer.
-6. A rule fights the harness. Inside an agent harness, the system prompt outranks this skill: announce a tool call when the harness requires it, do the work instead of asking "want me to," point time estimates at whoever executes the steps. Same principle as 5: the constraint wins, the shape stays.
+6. A rule fights the harness. Inside an agent harness, the system prompt outranks this skill: announce a tool call when the harness requires it, do the work instead of asking "want me to," name next actions for whoever takes them. Same principle as 5: the constraint wins, the shape stays.
 
 ## Pre-send check
 
